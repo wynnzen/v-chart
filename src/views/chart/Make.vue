@@ -4,22 +4,23 @@
       <v-chart class="chart" :option="option" />
     </a-col>
     <a-col :span="4">
-      <chart-setting />
+      <chart-setting @update="updateOptions" />
     </a-col>
   </a-row>
 </template>
 
 <script>
-import ChartSetting from "./make/ChartSetting.vue";
-import { use } from "echarts/core";
-import { CanvasRenderer } from "echarts/renderers";
 import { PieChart } from "echarts/charts";
 import {
+  LegendComponent,
   TitleComponent,
   TooltipComponent,
-  LegendComponent,
 } from "echarts/components";
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { set as _set } from "lodash";
 import VChart, { THEME_KEY } from "vue-echarts";
+import ChartSetting from "./make/ChartSetting.vue";
 
 use([
   CanvasRenderer,
@@ -38,11 +39,14 @@ export default {
   provide: {
     [THEME_KEY]: "light",
   },
+
   data() {
     return {
       option: {
         title: {
-          text: "Traffic Sources",
+          show: true,
+          text: "",
+          subtext: "",
           left: "center",
         },
         tooltip: {
@@ -84,6 +88,12 @@ export default {
         ],
       },
     };
+  },
+  methods: {
+    updateOptions(key, value) {
+      let keyPath = key.replaceAll("_", ".");
+      _set(this.option, keyPath, value);
+    },
   },
 };
 </script>

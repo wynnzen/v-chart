@@ -1,99 +1,163 @@
 <template>
-  <a-table :columns="columns" :data-source="data" bordered>
-    <template
-      v-for="col in ['name', 'age', 'address']"
-      :slot="col"
-      slot-scope="text, record, index"
-    >
-      <div :key="col">
-        <a-input
-          v-if="record.editable"
-          style="margin: -5px 0"
-          :value="text"
-          @change="(e) => handleChange(e.target.value, record.key, col)"
-        />
-        <template v-else>
-          {{ text }}
-        </template>
-      </div>
-    </template>
-    <template slot="operation" slot-scope="text, record, index">
-      <div class="editable-row-operations">
-        <span v-if="record.editable">
-          <a @click="() => save(record.key)">Save</a>
-          <a-popconfirm
-            title="Sure to cancel?"
-            @confirm="() => cancel(record.key)"
-          >
-            <a>Cancel</a>
-          </a-popconfirm>
-        </span>
-        <span v-else>
-          <a-space>
-            <a :disabled="editingKey !== ''" @click="() => edit(record.key)"
-              >Edit</a
-            >
-            <a-popconfirm
-              title="Sure to delete?"
-              @confirm="() => del(record.key)"
-            >
-              <a>Delete</a>
-            </a-popconfirm>
-          </a-space>
-        </span>
-      </div>
-    </template>
-  </a-table>
+  <div>
+    <a-row type="flex" justify="end">
+      <a-button type="primary" @click="addRow">新增行</a-button>
+      <a-button @click="addCol">新增列</a-button>
+    </a-row>
+    <a-row>
+      <a-table :data-source="data" bordered :pagination="false">
+        <a-table-column
+          :data-index="col.dataIndex"
+          v-for="(col, colindex) in userColumns"
+          :key="col.dataIndex"
+        >
+          <span v-if="col.editable" slot="title">
+            <a-space>
+              <a-input v-model="col.title" />
+              <a @click="saveColumn(colindex)">保存</a>
+            </a-space>
+          </span>
+          <span v-else slot="title" @click="editColumn(colindex)">{{
+            col.title
+          }}</span>
+          <template slot-scope="text, record">
+            <div :key="columnsDataIndexArray[colindex]">
+              <a-input
+                v-if="record.editable"
+                style="margin: -5px 0"
+                :value="text"
+                @change="
+                  (e) =>
+                    handleChange(
+                      e.target.value,
+                      record.key,
+                      columnsDataIndexArray[colindex]
+                    )
+                "
+              />
+              <template v-else>
+                {{ text }}
+              </template>
+            </div>
+          </template>
+        </a-table-column>
+        <a-table-column key="operation" title="操作" width="130px">
+          <template slot-scope="text, record">
+            <div class="editable-row-operations">
+              <span v-if="record.editable">
+                <a @click="() => save(record.key)">保存</a>
+                <a-popconfirm
+                  title="确认取消?"
+                  @confirm="() => cancel(record.key)"
+                >
+                  <a>取消</a>
+                </a-popconfirm>
+              </span>
+              <span v-else>
+                <a-space>
+                  <a
+                    :disabled="editingKey !== ''"
+                    @click="() => edit(record.key)"
+                    >编辑</a
+                  >
+                  <a-popconfirm
+                    title="Sure to delete?"
+                    @confirm="() => del(record.key)"
+                  >
+                    <a>删除</a>
+                  </a-popconfirm>
+                </a-space>
+              </span>
+            </div>
+          </template>
+        </a-table-column>
+      </a-table>
+    </a-row>
+  </div>
 </template>
 <script>
-const userColumns = [
-  {
-    title: "name",
-    dataIndex: "name",
-    width: "25%",
-    scopedSlots: { customRender: "name" },
-  },
-  {
-    title: "age",
-    dataIndex: "age",
-    width: "15%",
-    scopedSlots: { customRender: "age" },
-  },
-  {
-    title: "address",
-    dataIndex: "address",
-    width: "40%",
-    scopedSlots: { customRender: "address" },
-  },
-];
-const columns = [
-  ...userColumns,
-  {
-    title: "operation",
-    dataIndex: "operation",
-    scopedSlots: { customRender: "operation" },
-  },
-];
+import { nanoid } from "nanoid";
+// const userColumns = [
+//   {
+//     title: "name",
+//     editable: false,
+//     dataIndex: "name",
+//     scopedSlots: { customRender: "name" },
+//   },
+//   {
+//     title: "age",
+//     dataIndex: "age",
+//     editable: false,
+//     scopedSlots: { customRender: "age" },
+//   },
+//   {
+//     title: "address",
+//     dataIndex: "address",
+//     editable: false,
+//     scopedSlots: { customRender: "address" },
+//   },
+// ];
+const userColumns = ["未命名"].map((elem) => {
+  let uniqueIndex = nanoid();
+  return {
+    key: uniqueIndex,
+    title: elem,
+    dataIndex: uniqueIndex,
+    editable: false,
+    scopedSlots: { customRender: uniqueIndex },
+  };
+});
 
-const data = [];
-for (let i = 0; i < 10; i++) {
-  data.push({
-    key: i.toString(),
-    name: `Edrward ${i}`,
-    age: i,
-    address: `London Park no. ${i}`,
-  });
-}
 export default {
   data() {
-    this.cacheData = data.map((item) => ({ ...item }));
     return {
-      data,
-      columns,
+      cacheData: [],
+      data: [],
+      userColumns,
       editingKey: "",
     };
   },
+  computed: {
+    columnsDataIndexArray() {
+      return this.userColumns.map((elem) => elem.dataIndex);
+    },
+  },
+
   methods: {
+    saveColumn(index) {
+      this.userColumns[index].editable = false;
+    },
+    editColumn(index) {
+      this.userColumns[index].editable = true;
+    },
+    addCol() {
+      let uniqueIndex = nanoid();
+      let col = {
+        key: uniqueIndex,
+        title: "未命名",
+        dataIndex: uniqueIndex,
+        editable: false,
+        scopedSlots: { customRender: uniqueIndex },
+      };
+      this.userColumns.push(col);
+      this.data = this.data.map((item) => {
+        return {
+          ...item,
+          [uniqueIndex]: "",
+        };
+      });
+    },
+    addRow() {
+      let key = nanoid();
+      let row = {
+        key,
+      };
+      this.userColumns.forEach((elem) => {
+        row[elem.dataIndex] = "";
+      });
+      this.data.push(row);
+      this.cacheData = this.data.map((item) => ({ ...item }));
+    },
     handleChange(value, key, column) {
       const newData = [...this.data];
       const target = newData.filter((item) => key === item.key)[0];

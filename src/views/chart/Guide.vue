@@ -1,23 +1,61 @@
 <template>
-  <a-list :grid="{ gutter: 16, column: 4 }" :data-source="data">
-    <a-list-item slot="renderItem" slot-scope="item, index">
-      <a-card :title="item.title"> {{ item.title }} </a-card>
-    </a-list-item>
-  </a-list>
+  <a-row :gutter="[16, 16]" class="cards">
+    <a-col v-for="elem in data" :key="elem.id">
+      <a-card :title="elem.category">
+        <a-card-grid
+          style="width: 25%; text-align: center"
+          v-for="item in elem.charts"
+          :key="item.id"
+          class="cards__grid"
+          @click="chooseChart(item.id)"
+        >
+          {{ item.title }}
+        </a-card-grid>
+      </a-card>
+    </a-col>
+  </a-row>
 </template>
 <script>
 const data = [
   {
-    title: "折线图",
+    id: "1",
+    category: "基础类型",
+    charts: [
+      {
+        id: "1-1",
+        title: "折线图",
+      },
+      {
+        id: "1-2",
+        title: "柱状图",
+      },
+      {
+        id: "1-3",
+        title: "饼状图",
+      },
+      {
+        id: "1-4",
+        title: "散点图",
+      },
+      {
+        id: "1-5",
+        title: "雷达图",
+      },
+    ],
   },
   {
-    title: "柱状图",
-  },
-  {
-    title: "饼状图",
-  },
-  {
-    title: "散点图",
+    id: "2",
+    category: "高级类型",
+    charts: [
+      {
+        id: "2-1",
+        title: "k线图",
+      },
+      {
+        id: "2-2",
+        title: "热力图",
+      },
+    ],
   },
 ];
 export default {
@@ -26,6 +64,15 @@ export default {
       data,
     };
   },
+  methods: {
+    chooseChart(id) {
+      console.log("id: ", id);
+    },
+  },
 };
 </script>
-<style></style>
+<style>
+.cards__grid {
+  cursor: pointer;
+}
+</style>
