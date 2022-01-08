@@ -77,6 +77,7 @@
 </template>
 <script>
 import { nanoid } from "nanoid";
+import { mapActions } from "vuex";
 // const userColumns = [
 //   {
 //     title: "name",
@@ -124,11 +125,14 @@ export default {
   },
 
   methods: {
+    ...mapActions(["setCommonData"]),
     saveColumn(index) {
       this.userColumns[index].editable = false;
+      this.setCommonData({ key: "columns", value: this.userColumns });
     },
     editColumn(index) {
       this.userColumns[index].editable = true;
+      this.setCommonData({ key: "columns", value: this.userColumns });
     },
     addCol() {
       let uniqueIndex = nanoid();
@@ -140,12 +144,14 @@ export default {
         scopedSlots: { customRender: uniqueIndex },
       };
       this.userColumns.push(col);
+      this.setCommonData({ key: "columns", value: this.userColumns });
       this.data = this.data.map((item) => {
         return {
           ...item,
           [uniqueIndex]: "",
         };
       });
+      this.setCommonData({ key: "sourceData", value: this.data });
     },
     addRow() {
       let key = nanoid();
@@ -155,6 +161,7 @@ export default {
       this.userColumns.forEach((elem) => {
         row[elem.dataIndex] = "";
       });
+      this.setCommonData({ key: "columns", value: this.userColumns });
       this.data.push(row);
       this.cacheData = this.data.map((item) => ({ ...item }));
     },
@@ -164,6 +171,7 @@ export default {
       if (target) {
         target[column] = value;
         this.data = newData;
+        this.setCommonData({ key: "sourceData", value: this.data });
       }
     },
     edit(key) {
@@ -173,12 +181,14 @@ export default {
       if (target) {
         target.editable = true;
         this.data = newData;
+        this.setCommonData({ key: "sourceData", value: this.data });
       }
     },
 
     del(key) {
       let newData = [...this.data];
       this.data = newData.filter((item) => key !== item.key);
+      this.setCommonData({ key: "sourceData", value: this.data });
     },
 
     save(key) {
@@ -189,6 +199,7 @@ export default {
       if (target && targetCache) {
         delete target.editable;
         this.data = newData;
+        this.setCommonData({ key: "sourceData", value: this.data });
         Object.assign(targetCache, target);
         this.cacheData = newCacheData;
       }
@@ -205,6 +216,7 @@ export default {
         );
         delete target.editable;
         this.data = newData;
+        this.setCommonData({ key: "sourceData", value: this.data });
       }
     },
   },

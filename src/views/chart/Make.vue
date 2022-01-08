@@ -20,6 +20,7 @@ import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { set as _set } from "lodash";
 import VChart, { THEME_KEY } from "vue-echarts";
+import { mapGetters } from "vuex";
 import ChartSetting from "./make/ChartSetting.vue";
 
 use([
@@ -89,7 +90,22 @@ export default {
       },
     };
   },
+
+  computed: {
+    ...mapGetters(["sourceData", "chartType", "columns"]),
+  },
+
+  mounted() {
+    console.log(this.sourceData);
+    console.log(this.columns);
+    this.setChartType();
+  },
   methods: {
+    setChartType() {
+      const { type } = this.chartType;
+      console.log("type: ", type);
+      // this.option.series.type = type;
+    },
     updateOptions(key, value) {
       let keyPath = key.replaceAll("_", ".");
       _set(this.option, keyPath, value);

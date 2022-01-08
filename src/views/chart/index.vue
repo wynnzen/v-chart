@@ -48,6 +48,10 @@ export default {
       ],
     };
   },
+  created() {
+    let { name } = this.$router.currentRoute;
+    this.current = this.steps.findIndex((elem) => elem.content === name);
+  },
   methods: {
     next() {
       this.current++;
