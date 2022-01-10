@@ -4,7 +4,7 @@
       <v-chart class="chart" :option="option" />
     </a-col>
     <a-col :span="4">
-      <chart-setting @update="updateOptions" />
+      <chart-setting />
     </a-col>
   </a-row>
 </template>
@@ -18,7 +18,6 @@ import {
 } from "echarts/components";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
-import { set as _set } from "lodash";
 import VChart, { THEME_KEY } from "vue-echarts";
 import { mapGetters } from "vuex";
 import ChartSetting from "./make/ChartSetting.vue";
@@ -98,19 +97,8 @@ export default {
   mounted() {
     console.log(this.sourceData);
     console.log(this.columns);
-    this.setChartType();
   },
-  methods: {
-    setChartType() {
-      const { type } = this.chartType;
-      console.log("type: ", type);
-      // this.option.series.type = type;
-    },
-    updateOptions(key, value) {
-      let keyPath = key.replaceAll("_", ".");
-      _set(this.option, keyPath, value);
-    },
-  },
+  methods: {},
 };
 </script>
 

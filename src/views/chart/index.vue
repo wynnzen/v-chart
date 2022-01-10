@@ -1,25 +1,31 @@
 <template>
-  <div class="steps">
-    <a-steps :current="current" class="steps__items">
-      <a-step v-for="item in steps" :key="item.title" :title="item.title" />
-    </a-steps>
-    <div class="steps__content">
-      <router-view />
-    </div>
-    <div class="steps__action">
-      <a-button v-if="current < steps.length - 1" type="primary" @click="next">
-        Next
-      </a-button>
-      <a-button
-        v-if="current == steps.length - 1"
-        type="primary"
-        @click="$message.success('Processing complete!')"
-      >
-        Done
-      </a-button>
-      <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
-        Previous
-      </a-button>
+  <div>
+    <div class="steps">
+      <a-steps :current="current" class="steps__items">
+        <a-step v-for="item in steps" :key="item.title" :title="item.title" />
+      </a-steps>
+      <div class="steps__content">
+        <router-view />
+      </div>
+      <div class="steps__action">
+        <a-button
+          v-if="current < steps.length - 1"
+          type="primary"
+          @click="next"
+        >
+          Next
+        </a-button>
+        <a-button
+          v-if="current == steps.length - 1"
+          type="primary"
+          @click="$message.success('Processing complete!')"
+        >
+          Done
+        </a-button>
+        <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
+          Previous
+        </a-button>
+      </div>
     </div>
   </div>
 </template>
