@@ -1,5 +1,4 @@
 const series = {
-  type: "line",
   data: [],
 };
 

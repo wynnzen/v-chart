@@ -47,6 +47,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import options from "./config/line";
 import { customStyle } from "./style";
 const typeOptions = [
@@ -70,8 +71,17 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["sourceData", "chartType", "columns"]),
     titleStatus() {
       return !this.form.title.show;
+    },
+  },
+  watch: {
+    form: {
+      handler(newForm) {
+        this.$emit("update", newForm);
+      },
+      deep: true,
     },
   },
 };

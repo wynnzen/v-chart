@@ -13,17 +13,17 @@
           type="primary"
           @click="next"
         >
-          Next
+          下一步
         </a-button>
         <a-button
           v-if="current == steps.length - 1"
           type="primary"
           @click="$message.success('Processing complete!')"
         >
-          Done
+          完成
         </a-button>
         <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
-          Previous
+          上一步
         </a-button>
       </div>
     </div>
