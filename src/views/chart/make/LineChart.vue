@@ -1,5 +1,12 @@
 <template>
   <div>
+    <a-row>
+      <a-col> rowData:{{ oneChart.rowData }} </a-col>
+      <a-col> colData:{{ oneChart.colData }} </a-col>
+      <a-col> rowArrayData:{{ oneChart.rowArrayData }} </a-col>
+      <a-col> colArrayData: {{ oneChart.colArrayData }} </a-col>
+      <a-col> options: {{ options }} </a-col>
+    </a-row>
     <a-form-model :model="form" layout="vertical">
       <a-collapse default-active-key="title" :bordered="false">
         <template #expandIcon="props">
@@ -47,7 +54,8 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import ChartData from "@/utils/chart";
+import { mapActions, mapGetters } from "vuex";
 import options from "./config/line";
 import { customStyle } from "./style";
 const typeOptions = [
@@ -61,6 +69,7 @@ const triggerOptions = [
   { label: "坐标轴", value: "axis" },
   { label: "无", value: "none" },
 ];
+
 export default {
   data() {
     return {
@@ -68,6 +77,7 @@ export default {
       typeOptions,
       triggerOptions,
       form: options,
+      oneChart: null,
     };
   },
   computed: {
@@ -76,11 +86,28 @@ export default {
       return !this.form.title.show;
     },
   },
+
+  created() {
+    this.oneChart = ChartData.create(this.columns, this.sourceData);
+    let xAxis = this.oneChart.getAxisData();
+    let legend = this.oneChart.getLegendData("col");
+    let series = this.oneChart.getSeriesData();
+    options.xAxis.data = xAxis;
+    options.series = series;
+    options.legend.data = legend;
+    console.log(options);
+    this.form = options;
+    this.setCommonData({
+      key: "chartOptions",
+      value: this.form,
+    });
+  },
+  methods: {
+    ...mapActions(["setCommonData"]),
+  },
   watch: {
     form: {
-      handler(newForm) {
-        this.$emit("update", newForm);
-      },
+      handler() {},
       deep: true,
     },
   },

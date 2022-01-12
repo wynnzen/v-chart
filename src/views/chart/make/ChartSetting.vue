@@ -1,6 +1,6 @@
 <template>
   <div>
-    <line-chart />
+    <line-chart v-if="chartType.type === 'line'" />
   </div>
 </template>
 <script>

@@ -76,6 +76,7 @@
   </div>
 </template>
 <script>
+import { getLocalData } from "@/utils/data";
 import { nanoid } from "nanoid";
 import { mapActions } from "vuex";
 // const userColumns = [
@@ -124,8 +125,21 @@ export default {
     },
   },
 
+  created() {
+    this.loadLocalData();
+  },
+
   methods: {
     ...mapActions(["setCommonData"]),
+    loadLocalData() {
+      const { sourceData = null, columns = null } = getLocalData();
+      if (sourceData) {
+        this.data = sourceData;
+      }
+      if (columns) {
+        this.userColumns = columns;
+      }
+    },
     saveColumn(index) {
       this.userColumns[index].editable = false;
       this.setCommonData({ key: "columns", value: this.userColumns });

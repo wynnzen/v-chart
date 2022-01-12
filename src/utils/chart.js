@@ -6,10 +6,19 @@ class ChartData {
     this.colData = [];
     this.rowArrayData = [];
     this.colArrayData = [];
+
+    this.getTableRow();
+    this.getTableCol();
+    this.getTableRowData();
+    this.getTableColData();
     //最终数据
     this.xAxis = [];
     this.yAxis = [];
+    this.legend = [];
     this.seriesData = [];
+  }
+  static create(columns, sourceData) {
+    return new ChartData(columns, sourceData);
   }
   getOneColData(value) {
     return this.sourceData.map((elem) => {
@@ -58,6 +67,7 @@ class ChartData {
           data: this.rowArrayData[index].map((item) => item),
         };
       });
+      return this.seriesData;
     } else {
       this.seriesData = this.rowData.map((elem, index) => {
         return {
@@ -66,10 +76,22 @@ class ChartData {
           data: this.colArrayData[index].map((item) => item),
         };
       });
+      return this.seriesData;
     }
   }
-  getAxisData(axis = "x", grid = "row") {
-    this[`${axis}Axis`] = this[`${axis}Data`].map((elem) => elem.title);
+
+  getOneLineData(grid = "row") {
+    return this[`${grid}Data`].map((elem) => elem.title);
+  }
+
+  getAxisData(grid = "row", axis = "x") {
+    this[`${axis}Axis`] = this.getOneLineData(grid);
+    return this[`${axis}Axis`];
+  }
+
+  getLegendData(grid = "row") {
+    this.legend = this.getOneLineData(grid);
+    return this.legend;
   }
 }
 

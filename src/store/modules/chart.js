@@ -15,6 +15,8 @@ const chart = {
   actions: {
     setCommonData({ commit }, payload) {
       commit("SET_COMMON_DATA", payload);
+      const { key, value } = payload;
+      localStorage.setItem(key, JSON.stringify(value));
     },
   },
 };

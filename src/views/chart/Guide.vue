@@ -19,6 +19,7 @@
   </a-row>
 </template>
 <script>
+import { getLocalData } from "@/utils/data";
 import { mapActions } from "vuex";
 import chartTypes from "./config/chart.type.config";
 export default {
@@ -28,8 +29,18 @@ export default {
       activeId: 0,
     };
   },
+  created() {
+    this.loadLocalData();
+  },
   methods: {
     ...mapActions(["setCommonData"]),
+    loadLocalData() {
+      const { chartType = null } = getLocalData();
+      if (chartType) {
+        const { id } = chartType;
+        this.activeId = id;
+      }
+    },
     chooseChart(value) {
       const { id } = value;
       this.activeId = id;
