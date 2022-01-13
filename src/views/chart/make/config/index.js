@@ -1,3 +1,5 @@
-import lineConfig from "./line.series.config";
+import line from "./line";
 
-export { lineConfig };
+export default {
+  line,
+};

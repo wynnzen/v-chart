@@ -73,10 +73,11 @@ const triggerOptions = [
 export default {
   data() {
     return {
+      options,
       customStyle,
       typeOptions,
       triggerOptions,
-      form: options,
+      form: this.options,
       oneChart: null,
     };
   },
@@ -92,11 +93,10 @@ export default {
     let xAxis = this.oneChart.getAxisData();
     let legend = this.oneChart.getLegendData("col");
     let series = this.oneChart.getSeriesData();
-    options.xAxis.data = xAxis;
-    options.series = series;
-    options.legend.data = legend;
-    console.log(options);
-    this.form = options;
+    this.options.xAxis.data = xAxis;
+    this.options.series = series;
+    this.options.legend.data = legend;
+    this.form = this.options;
     this.setCommonData({
       key: "chartOptions",
       value: this.form,

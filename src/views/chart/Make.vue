@@ -55,6 +55,8 @@ export default {
   computed: {
     ...mapGetters(["sourceData", "chartType", "columns", "chartOptions"]),
   },
+
+  methods: {},
 };
 </script>
 
