@@ -19,9 +19,9 @@
   </a-row>
 </template>
 <script>
+import chartTypes from "@/config/guide/chart.type.config";
 import { getLocalData } from "@/utils/data";
 import { mapActions } from "vuex";
-import chartTypes from "./config/chart.type.config";
 export default {
   data() {
     return {

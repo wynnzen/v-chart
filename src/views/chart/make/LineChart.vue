@@ -54,21 +54,11 @@
   </div>
 </template>
 <script>
+import options from "@/config/make/inital/line";
+import { triggerOptions, typeOptions } from "@/config/make/setting";
 import ChartData from "@/utils/chart";
 import { mapActions, mapGetters } from "vuex";
-import options from "./config/line";
 import { customStyle } from "./style";
-const typeOptions = [
-  { label: "数值轴", value: "value" },
-  { label: "类目轴", value: "category" },
-  { label: "时间轴", value: "time", disabled: true },
-  { label: "对数轴", value: "log", disabled: true },
-];
-const triggerOptions = [
-  { label: "数据项", value: "item" },
-  { label: "坐标轴", value: "axis" },
-  { label: "无", value: "none" },
-];
 
 export default {
   data() {
