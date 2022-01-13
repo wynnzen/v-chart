@@ -58,7 +58,7 @@ class ChartData {
       return this.getOneColData(elem.dataIndex);
     });
   }
-  getSeriesData(grid = "row", type = "line") {
+  getSeriesData(type = "line", grid = "row") {
     if (grid === "row") {
       this.seriesData = this.colData.map((elem, index) => {
         return {

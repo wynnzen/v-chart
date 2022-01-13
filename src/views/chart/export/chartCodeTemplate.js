@@ -1,14 +1,13 @@
+const htmlTemplate = `
 <template>
-  <a-row>
-    <a-col :span="20">
-      <v-chart class="chart" :option="chartOptions" />
-    </a-col>
-    <a-col :span="4">
-      <chart-setting />
-    </a-col>
-  </a-row>
+  <div>
+    <v-chart class="chart" :option="chartOptions" />
+  </div>
 </template>
 
+`;
+
+const scriptTemplate = `
 <script>
 import { BarChart, LineChart, PieChart } from "echarts/charts";
 import {
@@ -21,7 +20,6 @@ import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart, { THEME_KEY } from "vue-echarts";
 import { mapGetters } from "vuex";
-import ChartSetting from "./make/ChartSetting.vue";
 
 use([
   CanvasRenderer,
@@ -37,7 +35,6 @@ use([
 export default {
   components: {
     VChart,
-    ChartSetting,
   },
   provide: {
     [THEME_KEY]: "light",
@@ -45,24 +42,26 @@ export default {
 
   data() {
     return {
-      rowData: [],
-      colData: [],
-      rowArrayData: [],
-      colArrayData: [],
-      chartData: [],
+			chartOptions:[]
     };
   },
 
-  computed: {
-    ...mapGetters(["sourceData", "chartType", "columns", "chartOptions"]),
-  },
-
-  methods: {},
 };
 </script>
 
+`;
+
+const styleTemplate = `
 <style scoped>
 .chart {
   height: 400px;
 }
 </style>
+`;
+
+const chartCodeTemplate = `
+${htmlTemplate}
+${scriptTemplate}
+${styleTemplate}`;
+
+export default chartCodeTemplate;
