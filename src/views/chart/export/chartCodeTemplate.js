@@ -1,4 +1,4 @@
-const htmlTemplate = `
+const htmlTemplate = () => `
 <template>
   <div>
     <v-chart class="chart" :option="chartOptions" />
@@ -7,7 +7,7 @@ const htmlTemplate = `
 
 `;
 
-const scriptTemplate = `
+const scriptTemplate = (options) => `
 <script>
 import { BarChart, LineChart, PieChart } from "echarts/charts";
 import {
@@ -42,7 +42,7 @@ export default {
 
   data() {
     return {
-			chartOptions:[]
+		chartOptions:${options}
     };
   },
 
@@ -51,7 +51,7 @@ export default {
 
 `;
 
-const styleTemplate = `
+const styleTemplate = () => `
 <style scoped>
 .chart {
   height: 400px;
@@ -59,9 +59,8 @@ const styleTemplate = `
 </style>
 `;
 
-const chartCodeTemplate = `
-${htmlTemplate}
-${scriptTemplate}
-${styleTemplate}`;
+const createChartCode = (options) => {
+  return htmlTemplate() + scriptTemplate(options) + styleTemplate();
+};
 
-export default chartCodeTemplate;
+export default createChartCode;
