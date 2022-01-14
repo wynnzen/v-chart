@@ -81,7 +81,7 @@ export default {
   background: white;
   height: 100vh;
   .steps__content {
-    height: 500px;
+    height: 700px;
     overflow: auto;
   }
 }

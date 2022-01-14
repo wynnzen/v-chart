@@ -52,6 +52,7 @@ import {
   Tree,
   TreeSelect,
   Upload,
+  Slider,
 } from "ant-design-vue";
 import Vue from "vue";
 
@@ -107,6 +108,7 @@ Vue.use(Transfer);
 Vue.use(FormModel);
 Vue.use(Timeline);
 Vue.use(Collapse);
+Vue.use(Slider);
 
 Vue.prototype.$confirm = Modal.confirm;
 Vue.prototype.$message = message;

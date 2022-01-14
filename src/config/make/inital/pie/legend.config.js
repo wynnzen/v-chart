@@ -1,5 +1,3 @@
-const legend = {
-  data: [],
-};
+const legend = {};
 
 export default legend;

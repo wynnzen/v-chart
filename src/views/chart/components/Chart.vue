@@ -1,17 +1,11 @@
 <template>
-  <a-row>
-    <a-col :span="20">
-      <v-chart class="chart" :option="chartOptions" />
-    </a-col>
-    <a-col :span="4">
-      <chart-setting />
-    </a-col>
-  </a-row>
+  <div>
+    <v-chart class="chart" :option="chartOptions" />
+  </div>
 </template>
-
 <script>
 import { BarChart, LineChart, PieChart } from "echarts/charts";
-import {
+	import {
   GridComponent,
   LegendComponent,
   TitleComponent,
@@ -20,8 +14,7 @@ import {
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart, { THEME_KEY } from "vue-echarts";
-import { mapGetters } from "vuex";
-import ChartSetting from "./make/ChartSetting.vue";
+// import { mapGetters } from "vuex";
 
 use([
   CanvasRenderer,
@@ -34,18 +27,24 @@ use([
   GridComponent,
 ]);
 
-export default {
+export default { 
+	props:{
+		chartOptions:{
+			type:Object,
+			default:()=>{}
+		}
+	},
   components: {
     VChart,
-    ChartSetting,
   },
   provide: {
     [THEME_KEY]: "light",
   },
 
   computed: {
-    ...mapGetters(["sourceData", "chartType", "columns", "chartOptions"]),
+    // ...mapGetters(["chartOptions"]),
   },
+
 };
 </script>
 
@@ -54,3 +53,5 @@ export default {
   height: 400px;
 }
 </style>
+
+</script>

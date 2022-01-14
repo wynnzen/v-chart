@@ -54,7 +54,7 @@
   </div>
 </template>
 <script>
-import options from "@/config/make/inital/line";
+import options from "@/config/make/inital/bar";
 import { triggerOptions, typeOptions } from "@/config/make/setting";
 import ChartData from "@/utils/chart";
 import { mapActions, mapGetters } from "vuex";
@@ -67,7 +67,7 @@ export default {
       customStyle,
       typeOptions,
       triggerOptions,
-      form: this.options,
+      form: options,
       oneChart: null,
     };
   },

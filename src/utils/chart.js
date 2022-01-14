@@ -80,6 +80,24 @@ class ChartData {
     }
   }
 
+  getPieSeriesData(grid = "row", dataIndex = 0, dataName = "") {
+    if (grid === "row") {
+      this.seriesData = {
+        name: "",
+        data: [
+          {
+            name: "",
+            value: "",
+          },
+        ],
+      };
+      return this.seriesData;
+    } else {
+      this.seriesData = [];
+      return this.seriesData;
+    }
+  }
+
   getOneLineData(grid = "row") {
     return this[`${grid}Data`].map((elem) => elem.title);
   }

@@ -67,7 +67,7 @@ export default {
       customStyle,
       typeOptions,
       triggerOptions,
-      form: this.options,
+      form: options,
       oneChart: null,
     };
   },

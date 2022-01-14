@@ -25,10 +25,19 @@
         <Editor v-model="fullCode" :opts="fullCodeOptions" />
       </a-col>
     </a-row>
+    <a-row>
+      <h3>图表</h3>
+      <a-col span="12">
+        <a-card>
+          <Chart :chartOptions="chartOptions" />
+        </a-card>
+      </a-col>
+    </a-row>
   </div>
 </template>
 <script>
 import Editor from "@/components/Editor/CodeMirrorEditor";
+import Chart from "./components/Chart";
 import { download } from "@/utils/fileHelper";
 import { copy } from "@/utils";
 import { mapGetters } from "vuex";
@@ -41,6 +50,7 @@ import { titleList } from "@/config/export/export.config";
 export default {
   components: {
     Editor,
+    Chart,
   },
   data() {
     return {

@@ -1,4 +1,4 @@
 const tooltip = {
-  trigger: "axis",
+  trigger: "item",
 };
 export default tooltip;
