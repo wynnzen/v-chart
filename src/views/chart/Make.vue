@@ -1,7 +1,11 @@
 <template>
   <a-row>
     <a-col :span="20">
-      <v-chart class="chart" :option="chartOptions" />
+      <v-chart
+        class="chart"
+        :option="chartOptions"
+        :update-options="{ notMerge: true }"
+      />
     </a-col>
     <a-col :span="4">
       <chart-setting />

@@ -5,7 +5,7 @@
       <a-col> colData:{{ oneChart.colData }} </a-col>
       <a-col> rowArrayData:{{ oneChart.rowArrayData }} </a-col>
       <a-col> colArrayData: {{ oneChart.colArrayData }} </a-col>
-      <a-col> options: {{ options }} </a-col>
+      <!-- <a-col> options: {{ options }} </a-col> -->
     </a-row>
     <a-form-model :model="form" layout="vertical">
       <a-collapse default-active-key="title" :bordered="false">
@@ -50,14 +50,14 @@ import { triggerOptions } from "@/config/make/setting";
 import ChartData from "@/utils/chart";
 import { mapActions, mapGetters } from "vuex";
 import { customStyle } from "./style";
+import { cloneDeep } from "lodash";
 
 export default {
   data() {
     return {
-      options,
       customStyle,
       triggerOptions,
-      form: options,
+      form: cloneDeep(options),
       oneChart: null,
     };
   },
@@ -74,10 +74,12 @@ export default {
   created() {
     this.oneChart = ChartData.create(this.columns, this.sourceData);
     // let legend = this.oneChart.getLegendData("col");
-    let series = this.oneChart.getSeriesData("pie");
-    console.log(series);
-    this.options.series = series;
-    this.form = this.options;
+    let series = this.oneChart.getPieSeriesData("col", 0);
+    this.form.series = {
+      ...this.form.series,
+      ...series,
+    };
+    console.log("this.form", this.form);
     this.setCommonData({
       key: "chartOptions",
       value: this.form,

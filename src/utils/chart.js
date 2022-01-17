@@ -80,20 +80,40 @@ class ChartData {
     }
   }
 
-  getPieSeriesData(grid = "row", dataIndex = 0, dataName = "") {
+  getPieSeriesData(grid = "row", dataIndex = -1, dataName = "") {
+    // row,0 代表横轴的第二列名字作为name 数据作为data
     if (grid === "row") {
-      this.seriesData = {
-        name: "",
-        data: [
-          {
-            name: "",
-            value: "",
-          },
-        ],
-      };
+      if (dataIndex > -1) {
+        console.log("colData", this.colData);
+        this.seriesData = {
+          name: this.rowData[dataIndex].title,
+          data: this.colData.map((elem, index) => {
+            return {
+              name: elem.title,
+              value: this.colArrayData[dataIndex][index].title,
+            };
+          }),
+        };
+      } else if (dataName) {
+        // todo
+      }
       return this.seriesData;
     } else {
-      this.seriesData = [];
+      if (dataIndex > -1) {
+        console.log("rowData", this.rowData);
+        this.seriesData = {
+          name: this.colData[dataIndex].title,
+          data: this.rowData.map((elem, index) => {
+            console.log("elem", elem, index);
+            return {
+              name: elem.title,
+              value: this.rowArrayData[dataIndex][index],
+            };
+          }),
+        };
+      } else if (dataName) {
+        // todo
+      }
       return this.seriesData;
     }
   }
