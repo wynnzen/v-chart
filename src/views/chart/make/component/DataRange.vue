@@ -1,38 +1,30 @@
 <template>
   <div>
-    <a-row>
-      <a-col>
-        x轴
-        <a-radio-group
-          :options="plainOptions"
-          :default-value="value1"
-          @change="onChange1"
-        />
-      </a-col>
-      <a-col>
-        y轴
-        <a-radio-group
-          :options="plainOptions"
-          :default-value="value1"
-          @change="onChange1"
-        />
-      </a-col>
-    </a-row>
-    <a-transfer
-      :data-source="mockData"
-      show-search
-      :filter-option="filterOption"
-      :target-keys="targetKeys"
-      :render="(item) => item.title"
-      @change="handleChange"
-      @search="handleSearch"
-    />
+    <a-modal v-model="visible" title="Title" on-ok="handleOk">
+      <a-row>
+        <a-col>
+          <a-radio-group :options="gridOptions" @change="changeGroupRadio" />
+        </a-col>
+      </a-row>
+      <a-transfer
+        :data-source="mockData"
+        show-search
+        :filter-option="filterOption"
+        :target-keys="targetKeys"
+        :render="(item) => item.title"
+        @change="handleChange"
+        @search="handleSearch"
+      />
+    </a-modal>
   </div>
 </template>
 <script>
+import gridOptions from "@/config/make/setting/range";
 export default {
   data() {
     return {
+      visible: false,
+      gridOptions,
       mockData: [],
       targetKeys: [],
     };
@@ -41,6 +33,10 @@ export default {
     this.getMock();
   },
   methods: {
+    handleOk() {
+      this.visible = false;
+    },
+    changeGroupRadio() {},
     getMock() {
       const targetKeys = [];
       const mockData = [];
