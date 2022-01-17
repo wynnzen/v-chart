@@ -1,6 +1,6 @@
 <template>
   <a-row :gutter="[16, 16]" class="cards">
-    <a-col v-for="elem in chartTypes" :key="elem.id">
+    <a-col v-for="elem in chartTypes" :key="elem.id" :span="12">
       <a-card :title="elem.category">
         <a-card-grid
           :class="[
@@ -60,7 +60,7 @@ export default {
 }
 .cards {
   .cards___grid--active {
-    background: lavenderblush;
+    background: #eee;
   }
   .cards__grid--deactive {
     background: white;

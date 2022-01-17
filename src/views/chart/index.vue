@@ -1,36 +1,45 @@
 <template>
   <div>
     <div class="steps">
-      <a-steps :current="current" class="steps__items">
-        <a-step v-for="item in steps" :key="item.title" :title="item.title" />
-      </a-steps>
-      <div class="steps__content">
-        <router-view />
-      </div>
-      <div class="steps__action">
-        <a-button
-          v-if="current < steps.length - 1"
-          type="primary"
-          @click="next"
-        >
-          下一步
-        </a-button>
-        <a-button
-          v-if="current == steps.length - 1"
-          type="primary"
-          @click="$message.success('Processing complete!')"
-        >
-          完成
-        </a-button>
-        <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
-          上一步
-        </a-button>
-      </div>
+      <content-wrapper>
+        <a-steps :current="current" class="steps__items">
+          <a-step v-for="item in steps" :key="item.title" :title="item.title" />
+        </a-steps>
+      </content-wrapper>
+
+      <content-wrapper>
+        <div class="steps__content">
+          <router-view />
+        </div>
+      </content-wrapper>
+      <content-wrapper>
+        <div class="steps__action">
+          <a-button
+            v-if="current < steps.length - 1"
+            type="primary"
+            @click="next"
+          >
+            下一步
+          </a-button>
+          <a-button
+            v-if="current == steps.length - 1"
+            type="primary"
+            @click="$message.success('Processing complete!')"
+          >
+            完成
+          </a-button>
+          <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
+            上一步
+          </a-button>
+        </div>
+      </content-wrapper>
     </div>
   </div>
 </template>
 <script>
+import ContentWrapper from "../../components/ContentWrapper.vue";
 export default {
+  components: { ContentWrapper },
   data() {
     return {
       current: 0,
@@ -77,12 +86,16 @@ export default {
 </script>
 <style scoped lang="less">
 .steps {
-  margin: 20px;
-  background: white;
+  padding: 20px;
+  background: #eee;
   height: 100vh;
   .steps__content {
-    height: 700px;
+    height: 600px;
     overflow: auto;
+  }
+  .steps__action {
+    display: flex;
+    justify-content: end;
   }
 }
 </style>

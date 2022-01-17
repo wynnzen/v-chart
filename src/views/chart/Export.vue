@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row>
+    <a-row :gutter="[16, 16]">
       <a-col :span="12" v-for="item in titleList" :key="item.value">
         <a-row type="flex" justify="space-between">
           <a-col>
@@ -17,7 +17,7 @@
         </a-row>
       </a-col>
     </a-row>
-    <a-row>
+    <a-row :gutter="[16, 16]">
       <a-col span="12">
         <Editor v-model="optionsCode" :opts="opts" />
       </a-col>
@@ -25,8 +25,10 @@
         <Editor v-model="fullCode" :opts="fullCodeOptions" />
       </a-col>
     </a-row>
-    <a-row>
-      <h3>图表</h3>
+    <a-row :gutter="[16, 16]">
+      <a-col>
+        <h3>图表</h3>
+      </a-col>
       <a-col span="12">
         <a-card>
           <Chart :chartOptions="chartOptions" />
@@ -102,3 +104,8 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
+.chartBox {
+  margin: 20px auto;
+}
+</style>
