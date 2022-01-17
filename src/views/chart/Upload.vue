@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row>
+    <a-row :gutter="[16, 16]">
       <a-col>
         <a-radio-group
           :options="uploadOptions"
