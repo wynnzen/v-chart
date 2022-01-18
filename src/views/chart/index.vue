@@ -1,12 +1,16 @@
 <template>
   <div>
+    <content-wrapper :userStyle="userStyle">
+      <div>
+        <b style="font-size: 18px">图表生成器</b>
+      </div>
+    </content-wrapper>
     <div class="steps">
       <content-wrapper>
         <a-steps :current="current" class="steps__items">
           <a-step v-for="item in steps" :key="item.title" :title="item.title" />
         </a-steps>
       </content-wrapper>
-
       <content-wrapper>
         <div class="steps__content">
           <router-view />
@@ -42,6 +46,9 @@ export default {
   components: { ContentWrapper },
   data() {
     return {
+      userStyle: {
+        margin: "0px",
+      },
       current: 0,
       steps: [
         {

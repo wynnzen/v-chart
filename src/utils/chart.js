@@ -67,7 +67,6 @@ class ChartData {
           data: this.rowArrayData[index].map((item) => item),
         };
       });
-      return this.seriesData;
     } else {
       this.seriesData = this.rowData.map((elem, index) => {
         return {
@@ -76,8 +75,8 @@ class ChartData {
           data: this.colArrayData[index].map((item) => item),
         };
       });
-      return this.seriesData;
     }
+    return this.seriesData;
   }
 
   getPieSeriesData(grid = "row", dataIndex = -1, dataName = "") {

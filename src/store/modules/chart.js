@@ -1,9 +1,11 @@
 const chart = {
   state: {
+    sourceType: "",
     sourceData: [],
     columns: [],
     chartType: {},
     chartOptions: {},
+    sheetData: [],
   },
 
   mutations: {
@@ -14,7 +16,6 @@ const chart = {
 
   actions: {
     setCommonData({ commit }, payload) {
-      console.log("payload", payload);
       commit("SET_COMMON_DATA", payload);
       const { key, value } = payload;
       localStorage.setItem(key, JSON.stringify(value));

@@ -57,6 +57,7 @@
 import options from "@/config/make/inital/line";
 import { triggerOptions, typeOptions } from "@/config/make/setting";
 import ChartData from "@/utils/chart";
+import SheetData from "@/utils/sheet";
 import { mapActions, mapGetters } from "vuex";
 import { customStyle } from "./style";
 import { cloneDeep } from "lodash";
@@ -72,27 +73,69 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["sourceData", "chartType", "columns"]),
+    ...mapGetters([
+      "sourceData",
+      "sheetData",
+      "chartType",
+      "columns",
+      "sourceType",
+    ]),
     titleStatus() {
       return !this.form.title.show;
     },
   },
 
   created() {
-    this.oneChart = ChartData.create(this.columns, this.sourceData);
-    let xAxis = this.oneChart.getAxisData();
-    let legend = this.oneChart.getLegendData("col");
-    let series = this.oneChart.getSeriesData();
-    this.form.xAxis.data = xAxis;
-    this.form.series = series;
-    this.form.legend.data = legend;
-    this.setCommonData({
-      key: "chartOptions",
-      value: this.form,
-    });
+    this.init();
   },
   methods: {
     ...mapActions(["setCommonData"]),
+    dynamicTableInit() {
+      this.oneChart = ChartData.create(this.columns, this.sourceData);
+      let xAxis = this.oneChart.getAxisData();
+      let legend = this.oneChart.getLegendData("col");
+      let series = this.oneChart.getSeriesData();
+      this.form.xAxis.data = xAxis;
+      this.form.series = series;
+      this.form.legend.data = legend;
+      this.setCommonData({
+        key: "chartOptions",
+        value: this.form,
+      });
+    },
+    hotTableInit() {
+      this.oneChart = SheetData.create(this.sheetData);
+      let xAxis = this.oneChart.getAxisData();
+      let legend = this.oneChart.getLegendData("col");
+      let series = this.oneChart.getSeriesData();
+      this.form.xAxis.data = xAxis;
+      this.form.series = series;
+      this.form.legend.data = legend;
+      this.setCommonData({
+        key: "chartOptions",
+        value: this.form,
+      });
+    },
+    excelFileInit() {},
+
+    init() {
+      switch (this.sourceType) {
+        case "dynamicTable":
+          this.dynamicTableInit();
+          break;
+
+        case "hotTable":
+          this.hotTableInit();
+          break;
+
+        case "excelFile":
+          this.fileInit();
+          break;
+
+        default:
+          break;
+      }
+    },
   },
   watch: {
     form: {

@@ -1,10 +1,7 @@
 <template>
-  <hot-table
-    :data="data"
-    :rowHeaders="true"
-    :colHeaders="true"
-    :settings="hotSettings"
-  ></hot-table>
+  <div>
+    <hot-table ref="wrapper" :settings="hotSettings"></hot-table>
+  </div>
 </template>
 
 <script>
@@ -12,17 +9,32 @@ import { HotTable } from "@handsontable/vue";
 import { registerAllModules } from "handsontable/registry";
 import { registerAllPlugins, ContextMenu } from "handsontable/plugins";
 import "handsontable/dist/handsontable.full.css";
+import { mapActions } from "vuex";
 
 // register Handsontable's modules
 registerAllModules();
 registerAllPlugins();
 
 export default {
+  components: {
+    HotTable,
+  },
   data: function () {
     return {
+      hotRef: null,
       hotSettings: {
+        data: [
+          ["", "Ford", "Volvo", "Toyota", "Honda"],
+          ["2016", 10, 11, 12, 13],
+          ["2017", 20, 11, 14, 13],
+          ["2018", 30, 15, 12, 13],
+        ],
+        rowHeaders: true,
+        colHeaders: true,
         height: "auto",
-        width: "auto",
+        afterChange: () => {
+          this.setSheetData();
+        },
         contextMenu: {
           items: {
             row_above: {
@@ -48,16 +60,25 @@ export default {
         },
         licenseKey: "non-commercial-and-evaluation",
       },
-      data: [
-        ["", "Ford", "Volvo", "Toyota", "Honda"],
-        ["2016", 10, 11, 12, 13],
-        ["2017", 20, 11, 14, 13],
-        ["2018", 30, 15, 12, 13],
-      ],
     };
   },
-  components: {
-    HotTable,
+
+  methods: {
+    ...mapActions(["setCommonData"]),
+
+    setSheetData() {
+      if (this.hotRef) {
+        let data = this.hotRef.getSourceData();
+        this.setCommonData({
+          key: "sheetData",
+          value: data,
+        });
+      }
+    },
+  },
+  mounted() {
+    this.hotRef = this.$refs.wrapper.hotInstance;
+    this.setSheetData();
   },
 };
 </script>

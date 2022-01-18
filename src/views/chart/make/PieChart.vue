@@ -39,6 +39,16 @@
               @change="handleSliderChange"
             />
           </a-form-model-item>
+          <a-form-model-item label="数据字段" v-if="sourceType === 'hotTable'">
+            <a-select
+              show-search
+              option-filter-prop="children"
+              style="width: 200px"
+              :filter-option="filterOption"
+              @change="handleChangeDataWords"
+              :options="dataWords"
+            />
+          </a-form-model-item>
         </a-collapse-panel>
       </a-collapse>
     </a-form-model>
@@ -48,6 +58,7 @@
 import options from "@/config/make/inital/pie";
 import { triggerOptions } from "@/config/make/setting";
 import ChartData from "@/utils/chart";
+import SheetData from "@/utils/sheet";
 import { mapActions, mapGetters } from "vuex";
 import { customStyle } from "./style";
 import { cloneDeep } from "lodash";
@@ -55,14 +66,22 @@ import { cloneDeep } from "lodash";
 export default {
   data() {
     return {
+      dataWords: [], // 数据字段
       customStyle,
       triggerOptions,
       form: cloneDeep(options),
       oneChart: null,
+      dataIndex: 0,
     };
   },
   computed: {
-    ...mapGetters(["sourceData", "chartType", "columns"]),
+    ...mapGetters([
+      "sourceData",
+      "sheetData",
+      "chartType",
+      "columns",
+      "sourceType",
+    ]),
     series_radius() {
       return this.form.series.radius.map((elem) => parseFloat(elem));
     },
@@ -72,21 +91,82 @@ export default {
   },
 
   created() {
-    this.oneChart = ChartData.create(this.columns, this.sourceData);
-    // let legend = this.oneChart.getLegendData("col");
-    let series = this.oneChart.getPieSeriesData("col", 0);
-    this.form.series = {
-      ...this.form.series,
-      ...series,
-    };
-    console.log("this.form", this.form);
-    this.setCommonData({
-      key: "chartOptions",
-      value: this.form,
-    });
+    this.init();
   },
   methods: {
     ...mapActions(["setCommonData"]),
+    filterOption(input, option) {
+      return (
+        option.componentOptions.children[0].text
+          .toLowerCase()
+          .indexOf(input.toLowerCase()) >= 0
+      );
+    },
+    handleChangeDataWords(value) {
+      this.dataIndex = value;
+      if (this.sourceType === "hotTable") {
+        let series = this.oneChart.getPieSeriesData("col", this.dataIndex);
+        this.form.series = {
+          ...this.form.series,
+          ...series,
+        };
+        this.setCommonData({
+          key: "chartOptions",
+          value: this.form,
+        });
+      }
+    },
+    dynamicTableInit() {
+      this.oneChart = ChartData.create(this.columns, this.sourceData);
+
+      // let legend = this.oneChart.getLegendData("col");
+      let series = this.oneChart.getPieSeriesData("col", 0);
+      this.form.series = {
+        ...this.form.series,
+        ...series,
+      };
+      this.setCommonData({
+        key: "chartOptions",
+        value: this.form,
+      });
+    },
+    hotTableInit() {
+      this.oneChart = SheetData.create(this.sheetData);
+      this.dataWords = this.oneChart.colData.map((elem, index) => ({
+        label: elem,
+        value: index,
+      }));
+      console.log("dataWords", this.dataWords);
+      // let legend = this.oneChart.getLegendData("col");
+      let series = this.oneChart.getPieSeriesData("col", 0);
+      this.form.series = {
+        ...this.form.series,
+        ...series,
+      };
+      this.setCommonData({
+        key: "chartOptions",
+        value: this.form,
+      });
+    },
+    excelFileInit() {},
+    init() {
+      switch (this.sourceType) {
+        case "dynamicTable":
+          this.dynamicTableInit();
+          break;
+
+        case "hotTable":
+          this.hotTableInit();
+          break;
+
+        case "excelFile":
+          this.fileInit();
+          break;
+
+        default:
+          break;
+      }
+    },
     handleSliderChange(radiusArray) {
       this.form.series.radius = radiusArray.map((elem) => {
         return elem + "%";

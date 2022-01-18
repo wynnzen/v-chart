@@ -21,6 +21,7 @@
 import { uploadOptions } from "@/config/upload/upload.config";
 import Sheet from "./upload/Sheet";
 import DynamicTable from "./upload/DynamicTable";
+import { mapActions } from "vuex";
 export default {
   components: { Sheet, DynamicTable },
   data() {
@@ -30,8 +31,12 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["setCommonData"]),
     onChangeRadio(e) {
-      console.log(e.target.value);
+      this.setCommonData({
+        key: "sourceType",
+        value: e.target.value,
+      });
     },
   },
 };
