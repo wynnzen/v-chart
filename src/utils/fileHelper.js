@@ -11,7 +11,7 @@ const download = (content, name) => {
   saveAs(blob, name);
 };
 
-const useImport = (file) => {
+const useImport = (file, readType = "readAsText") => {
   const reader = new FileReader();
 
   return new Promise((resolve) => {
@@ -19,7 +19,7 @@ const useImport = (file) => {
       const content = evt.target.result;
       resolve({ content, file });
     };
-    reader.readAsText(file);
+    reader[readType](file);
   });
 };
 

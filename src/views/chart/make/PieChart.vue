@@ -43,10 +43,10 @@
             <a-select
               show-search
               option-filter-prop="children"
-              style="width: 200px"
               :filter-option="filterOption"
               @change="handleChangeDataWords"
               :options="dataWords"
+              v-model="dataIndex"
             />
           </a-form-model-item>
         </a-collapse-panel>
@@ -102,9 +102,9 @@ export default {
           .indexOf(input.toLowerCase()) >= 0
       );
     },
-    handleChangeDataWords(value) {
-      this.dataIndex = value;
+    handleChangeDataWords(dataIndex) {
       if (this.sourceType === "hotTable") {
+        this.dataIndex = dataIndex;
         let series = this.oneChart.getPieSeriesData("col", this.dataIndex);
         this.form.series = {
           ...this.form.series,
@@ -118,7 +118,6 @@ export default {
     },
     dynamicTableInit() {
       this.oneChart = ChartData.create(this.columns, this.sourceData);
-
       // let legend = this.oneChart.getLegendData("col");
       let series = this.oneChart.getPieSeriesData("col", 0);
       this.form.series = {
@@ -136,7 +135,6 @@ export default {
         label: elem,
         value: index,
       }));
-      console.log("dataWords", this.dataWords);
       // let legend = this.oneChart.getLegendData("col");
       let series = this.oneChart.getPieSeriesData("col", 0);
       this.form.series = {

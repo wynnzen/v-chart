@@ -8,8 +8,6 @@
           @change="onChangeRadio"
         />
       </a-col>
-    </a-row>
-    <a-row>
       <a-col>
         <DynamicTable v-if="value === 'dynamicTable'" />
         <Sheet v-if="value === 'hotTable'" />

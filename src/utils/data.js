@@ -23,4 +23,20 @@ const getLocalData = () => {
   return localData;
 };
 
-export { getLocalData };
+const transpose = (sourceData) => {
+  // 转置数组
+  // 初始化数组
+  let arr = [];
+  for (let i = 0; i < sourceData[0].length; i++) {
+    arr[i] = [];
+  }
+
+  for (let i = 0; i < sourceData.length; i++) {
+    for (let j = 0; j < sourceData[0].length; j++) {
+      arr[j][i] = sourceData[i][j];
+    }
+  }
+  return arr;
+};
+
+export { getLocalData, transpose };
