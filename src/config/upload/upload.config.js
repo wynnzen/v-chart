@@ -7,10 +7,10 @@ const uploadOptions = [
     label: "自由表格",
     value: "hotTable",
   },
-  {
-    label: "文件上传",
-    value: "excelFile",
-  },
+  // {
+  //   label: "文件上传",
+  //   value: "excelFile",
+  // },
 ];
 
 export { uploadOptions };
