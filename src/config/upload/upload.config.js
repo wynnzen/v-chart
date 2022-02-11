@@ -9,7 +9,7 @@ const uploadOptions = [
   },
   {
     label: "文件上传",
-    value: "file",
+    value: "excelFile",
   },
 ];
 
