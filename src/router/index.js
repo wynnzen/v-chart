@@ -3,6 +3,7 @@ import Guide from "@/views/chart/Guide";
 import Chart from "@/views/chart/index";
 import Make from "@/views/chart/Make";
 import Upload from "@/views/chart/Upload";
+import Page from "@/views/chart/Page";
 import List from "@/views/chart/List";
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -51,6 +52,11 @@ const routes = [
     path: "/list",
     name: "List",
     component: List,
+  },
+  {
+    path: "/page",
+    name: "Page",
+    component: Page,
   },
 ];
 

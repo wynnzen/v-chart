@@ -11,7 +11,7 @@
           <content-wrapper :userStyle="userStyle">
             <a-table :columns="columns" :data-source="dataSource">
               <span slot="action" slot-scope="text">
-                <a @click="view(text)">查看</a>
+                <a @click="view(text)">查看配置</a>
                 <a-divider type="vertical" />
                 <a @click="del(text)">删除</a>
               </span>
@@ -20,16 +20,22 @@
         </a-col>
       </a-row>
     </div>
+    <ViewModal ref="viewModal" :code="code" />
   </div>
 </template>
 <script>
 import columns from "@/config/list/column.config";
+import ViewModal from "./List/ViewModal.vue";
 export default {
+  components: {
+    ViewModal,
+  },
   data() {
     return {
       userStyle: {
         margin: "0px",
       },
+      code: "",
       columns,
       dataSource: [],
     };
@@ -52,7 +58,10 @@ export default {
       this.dataSource.splice(index, 1);
       localStorage.setItem("chartList", JSON.stringify(this.dataSource));
     },
-    view() {},
+    view(text) {
+      this.$refs.viewModal.changeVisible();
+      this.code = text.chartOptions;
+    },
   },
 };
 </script>

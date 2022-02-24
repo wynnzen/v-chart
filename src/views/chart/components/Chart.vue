@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-chart class="chart" :option="chartOptions" />
+  <div class="chart">
+    <v-chart :option="chartOptions" :autoresize="true" />
   </div>
 </template>
 <script>
@@ -42,6 +42,7 @@ export default {
   },
 
   computed: {
+    
     // ...mapGetters(["chartOptions"]),
   },
 
@@ -50,7 +51,8 @@ export default {
 
 <style scoped>
 .chart {
-  height: 400px;
+  height: 100%; 
+  width: 100%;
 }
 </style>
 
