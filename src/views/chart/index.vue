@@ -102,7 +102,7 @@ export default {
   }
   .steps__action {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
   }
 }
 </style>
