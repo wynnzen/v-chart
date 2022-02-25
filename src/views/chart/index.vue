@@ -1,43 +1,36 @@
 <template>
-  <div>
-    <content-wrapper :userStyle="userStyle">
-      <div>
-        <b style="font-size: 18px">图表生成器</b>
+  <div class="steps">
+    <content-wrapper>
+      <a-steps :current="current" class="steps__items">
+        <a-step v-for="item in steps" :key="item.title" :title="item.title" />
+      </a-steps>
+    </content-wrapper>
+    <content-wrapper>
+      <div class="steps__content">
+        <router-view />
       </div>
     </content-wrapper>
-    <div class="steps">
-      <content-wrapper>
-        <a-steps :current="current" class="steps__items">
-          <a-step v-for="item in steps" :key="item.title" :title="item.title" />
-        </a-steps>
-      </content-wrapper>
-      <content-wrapper>
-        <div class="steps__content">
-          <router-view />
-        </div>
-      </content-wrapper>
-      <content-wrapper>
-        <div class="steps__action">
-          <a-button
-            v-if="current < steps.length - 1"
-            type="primary"
-            @click="next"
-          >
-            下一步
-          </a-button>
-          <a-button
-            v-if="current == steps.length - 1"
-            type="primary"
-            @click="$message.success('Processing complete!')"
-          >
-            完成
-          </a-button>
-          <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
-            上一步
-          </a-button>
-        </div>
-      </content-wrapper>
-    </div>
+    <content-wrapper>
+      <div class="steps__action">
+        <a-button
+          v-if="current < steps.length - 1"
+          type="primary"
+          @click="next"
+        >
+          下一步
+        </a-button>
+        <a-button
+          v-if="current == steps.length - 1"
+          type="primary"
+          @click="$message.success('Processing complete!')"
+        >
+          完成
+        </a-button>
+        <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
+          上一步
+        </a-button>
+      </div>
+    </content-wrapper>
   </div>
 </template>
 <script>
@@ -46,9 +39,6 @@ export default {
   components: { ContentWrapper },
   data() {
     return {
-      userStyle: {
-        margin: "0px",
-      },
       current: 0,
       steps: [
         {

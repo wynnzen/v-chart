@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <a-row>
-      <a-col span="4">
+  <div class="container">
+    <a-row :gutter="16">
+      <a-col span="4" class="chartList">
         <div
           @drag="drag"
           @dragend="dragend($event, item)"
@@ -238,9 +238,17 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.container {
+  background: #eee;
+  padding: 20px;
+}
 .chartContainer {
   width: 100%;
   height: 100%;
+}
+.chartList {
+  border: 1px dashed lightgray;
+  border-radius: 10px;
 }
 .chartItem {
   height: 50px;
@@ -249,23 +257,22 @@ export default {
   text-align: center;
   margin: 10px 20px;
   border-radius: 10px;
-  background: #eee;
+  background: #fff;
 }
 // .chartItem:active {
 //   cursor: move;
 // }
 .item {
+  background: #fff;
   border-radius: 10px;
-  border: 1px solid lightgray;
   // background-color: #eee;
   justify-content: center;
   align-items: center;
   display: flex;
 }
 #content {
+  border: 1px dashed lightgray;
+  border-radius: 10px;
   height: 100vh;
-}
-.item:active {
-  border: 1px solid lightgray;
 }
 </style>

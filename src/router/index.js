@@ -46,18 +46,20 @@ const routes = [
           },
         ],
       },
+      {
+        path: "/list",
+        name: "List",
+        component: List,
+      },
+      {
+        path: "/page",
+        name: "Page",
+        component: Page,
+      },
     ],
   },
-  {
-    path: "/list",
-    name: "List",
-    component: List,
-  },
-  {
-    path: "/page",
-    name: "Page",
-    component: Page,
-  },
+
+
 ];
 
 const router = new VueRouter({

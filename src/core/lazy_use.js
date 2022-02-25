@@ -9,7 +9,7 @@ import {
   Checkbox,
   Col,
   Collapse,
-  LocaleProvider,
+  // LocaleProvider,
   ConfigProvider,
   DatePicker,
   Descriptions,
@@ -59,7 +59,7 @@ import Vue from "vue";
 
 // import Viser from 'viser-vue'
 
-Vue.use(LocaleProvider);
+// Vue.use(LocaleProvider);
 Vue.use(ConfigProvider);
 Vue.use(Layout);
 Vue.use(Input);

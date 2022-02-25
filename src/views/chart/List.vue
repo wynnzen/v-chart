@@ -1,15 +1,14 @@
 <template>
   <div>
-    <content-wrapper :userStyle="userStyle">
-      <div>
-        <b style="font-size: 18px">图表生成器</b>
-      </div>
-    </content-wrapper>
-    <div class="content">
+    <div class="container">
       <a-row :gutter="[16, 16]">
         <a-col span="12">
           <content-wrapper :userStyle="userStyle">
-            <a-table :columns="columns" :data-source="dataSource">
+            <a-table
+              rowKey="chartId"
+              :columns="columns"
+              :data-source="dataSource"
+            >
               <span slot="action" slot-scope="text">
                 <a @click="view(text)">查看配置</a>
                 <a-divider type="vertical" />
@@ -32,12 +31,12 @@ export default {
   },
   data() {
     return {
-      userStyle: {
-        margin: "0px",
-      },
-      code: "",
+      code: {},
       columns,
       dataSource: [],
+      userStyle: {
+        margin: 0,
+      },
     };
   },
   mounted() {
@@ -66,7 +65,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.content {
+.container {
   background: #eee;
   padding: 20px;
 }
